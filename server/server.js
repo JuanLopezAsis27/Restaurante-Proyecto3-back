@@ -20,7 +20,7 @@ class Server{
         await dbConnection();
     }
     middlewares(){
-        this.app.use(cors({origin:'http://localhost:5173',credentials:true}));
+        this.app.use(cors({origin:'https://restaurante-backend.onrender.com/',credentials:true}));
         this.app.use(express.json());
         this.app.use(cookieParser()); 
     }
