@@ -21,9 +21,10 @@ const register = async (req, res) => {
     const token = await createAccesToken({ id: userSaved._id });
 
     res.cookie("token", token,{
-      sameSite:'none',
+      sameSite:'strict',
       secure:true,
       httpOnly:false,
+      priority:"high",
 
     });
     res.status(201).json({
@@ -56,9 +57,10 @@ const login = async (req, res) => {
     const token = await createAccesToken({ id: userFound._id });
 
     res.cookie("token", token,{
-      sameSite:'none',
+      sameSite:'strict',
       secure:true,
       httpOnly:false,
+      priority:"high",
     });
     res.status(201).json({
       id: userFound._id,
@@ -73,9 +75,10 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
   res.cookie("token", "", {
-  sameSite:'none',
+  sameSite:'strict',
   secure:true,
   httpOnly:false,
+  priority:"high",
   expires: new Date(0),  
   });
   return res.sendStatus(200);
