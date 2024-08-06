@@ -6,7 +6,7 @@ const ReserveSchema = Schema({
         required:[true, "Este campo es obligatorio"]
     },
     dia: {
-        type:Date,
+        type:String,
         default: Date.now()
     },
     hora: {
