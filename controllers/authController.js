@@ -21,6 +21,7 @@ const register = async (req, res) => {
     const token = await createAccesToken({ id: userSaved._id });
 
     res.cookie("token", token,{
+      expires: new Date(Date.now() + 900000),
       sameSite:'none',
       secure:true,
       httpOnly:false,
@@ -57,6 +58,7 @@ const login = async (req, res) => {
     const token = await createAccesToken({ id: userFound._id });
 
     res.cookie("token", token,{
+      expires: new Date(Date.now() + 900000),
       sameSite:'none',
       secure:true,
       httpOnly:false,
