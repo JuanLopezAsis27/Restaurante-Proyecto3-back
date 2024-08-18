@@ -23,7 +23,12 @@ const createReserve = async (req, res) => {
  try {
   const { dia, hora, telefono, cantidadPersonas } = req.body;
 
+  console.log(dia);
+
+  const reserveFound = await Reserve.findOne({ dia:dia,hora:hora,cantidadPersonas:cantidadPersonas });
   
+  if (reserveFound) return res.status(400).json(["Ya hay una reserva registrada en este horario"],);
+
   const newReserve = new Reserve({
     user: req.user.id,
     dia,
@@ -31,8 +36,11 @@ const createReserve = async (req, res) => {
     telefono,
     cantidadPersonas,
   });
+
   const savedReserve = await newReserve.save();
+
   res.json(savedReserve);
+  
  } catch (error) {
   return res.status(401).json({ message: "No se pudo realizar la reserva" });
   
@@ -54,12 +62,24 @@ const getReserve = async (req, res) => {
 const updateReserve = async (req, res) => {
   try {
     const { id } = req.params;
+    const { dia, hora, cantidadPersonas } = req.body;
+
+    const reserveFoundUser = await Reserve.findOne({_id:id, dia:dia,hora:hora,cantidadPersonas:cantidadPersonas });
+  
+    if (reserveFoundUser) return res.status(400).json(["No se han notado cambios en tu reserva"],);
+
+    const reserveFound = await Reserve.findOne({ dia:dia,hora:hora,cantidadPersonas:cantidadPersonas });
+  
+    if (reserveFound) return res.status(400).json(["Ya hay una reserva registrada en este horario"],);
+
     const reserve = await Reserve.findByIdAndUpdate(id, req.body, {
       new: true,
     });
-    if (!reserve)
-      return res.status(404).json({ message: "Reserva no encontrada" });
+
+    if (!reserve) return res.status(404).json({ message: "Reserva no encontrada" });
+
     res.json(reserve);
+
   } catch (error) {
     return res.status(404).json({ message: "Reserva no encontrada" });
   }

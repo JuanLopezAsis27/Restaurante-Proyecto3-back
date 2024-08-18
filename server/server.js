@@ -20,7 +20,7 @@ class Server{
         await dbConnection();
     }
     middlewares(){
-        this.app.use(cors({origin:true,credentials:true}));
+        this.app.use(cors({origin:true,credentials:true,optionsSuccessStatus:200}));
         this.app.use(express.json());
         this.app.use(cookieParser()); 
     }
